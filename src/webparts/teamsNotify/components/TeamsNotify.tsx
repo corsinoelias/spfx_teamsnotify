@@ -12,6 +12,7 @@ export default class TeamsNotify extends React.Component<
 > {
   // https://www.youtube.com/watch?v=pBgcU-pAvzE
   // https://learn.microsoft.com/en-us/graph/api/userteamwork-sendactivitynotification?view=graph-rest-1.0&tabs=http
+  // https://stackoverflow.com/questions/70990562/getting-error-while-using-sendactivitynotification-graph-api
   private _sendNotification(): void { 
     const endpoint: string = `https://graph.microsoft.com/v1.0/teams/62e8df43-124f-4d7c-9cd0-549984a09584`;
 
