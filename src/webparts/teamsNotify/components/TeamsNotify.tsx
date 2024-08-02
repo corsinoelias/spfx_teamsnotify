@@ -13,22 +13,33 @@ export default class TeamsNotify extends React.Component<
   // https://www.youtube.com/watch?v=pBgcU-pAvzE
   // https://learn.microsoft.com/en-us/graph/api/userteamwork-sendactivitynotification?view=graph-rest-1.0&tabs=http
   // https://stackoverflow.com/questions/70990562/getting-error-while-using-sendactivitynotification-graph-api
-  private _sendNotification(): void { 
-    const endpoint: string = `https://graph.microsoft.com/v1.0/teams/62e8df43-124f-4d7c-9cd0-549984a09584`;
+  private _sendNotification(): void {
 
     const notificationBody: any = {
       topic: {
-        source: "entityUrl",
-        value: endpoint,
-      },
-      activityType: "readThisRequired",
+        source: 'entityUrl',
+        value: 'https://graph.microsoft.com/v1.0/appCatalogs/teamsApps/9d14ae0d-9041-47d9-9b8b-e8f67d9062cd'
+    },
+      activityType: "approvalRequired",
       previewText: {
         content: "Hola Mundo",
       },
-      recipient: {
-        "@odata.type": "microsoft.graph.aadUserNotificationRecipient",
-        userId: "54dfb99b-7ddf-44a3-b653-aa06cc639128",
-      },
+      templateParameters: [
+        {
+          name: "taskId",
+          value: "Task 12322",
+        },
+      ],
+      recipients: [
+        {
+            '@odata.type': 'microsoft.graph.aadUserNotificationRecipient',
+            userId: '54dfb99b-7ddf-44a3-b653-aa06cc639128'
+        }
+      ],
+      // recipient: {
+      //   "@odata.type": "microsoft.graph.aadUserNotificationRecipient",
+      //   userId: "admin@saldanagroup365.onmicrosoft.com",
+      // },
     };
 
     console.log(notificationBody);
@@ -37,8 +48,17 @@ export default class TeamsNotify extends React.Component<
       .getClient("3")
       .then((graphClient) => {
         graphClient
-          .api(`${endpoint}/sendActivityNotification`)
+          // .api(`${endpoint}/sendActivityNotification`)
+          // .api(`/teamwork/sendActivityNotificationToRecipients`)
+          // .version('beta')
+          // .api(
+          //   `/users/54dfb99b-7ddf-44a3-b653-aa06cc639128/teamwork/sendActivityNotification`
+          // )
+          .api('/teamwork/sendActivityNotificationToRecipients')
           .post(notificationBody);
+        //   .get((error, response: any, rawResponse?: any) => {
+        //   console.log(response)
+        // });
       });
   }
   private _getPeoplePickerItems(items: any[]) {
